@@ -9,7 +9,7 @@ class Wallet{
     public $ID;
 	
 	/**
-     * LWID number ID as defined by Lemon Way
+     * LWID number ID as defined by Payoh
      * @var string
      */
     public $LWID;
@@ -99,10 +99,10 @@ class Wallet{
 	
 	public function getStatusLabel(){
 		if(isset(self::$statuesLabel[$this->STATUS])){
-			return __(self::$statuesLabel[$this->STATUS],LEMONWAYMKT_TEXT_DOMAIN);
+			return __(self::$statuesLabel[$this->STATUS],PAYOHMKT_TEXT_DOMAIN);
 		}
 		
-		return __('N/A',LEMONWAYMKT_TEXT_DOMAIN);
+		return __('N/A',PAYOHMKT_TEXT_DOMAIN);
 	}
 	
 }

@@ -377,14 +377,14 @@ final class DirectkitJson{
 				throw new Exception("Bad Request : The server cannot or will not process the request due to something that is perceived to be a client error", 400);
 				break;
 			case 403:
-				throw new Exception("IP is not allowed to access Lemon Way's API, please contact support@lemonway.fr", 403);
+				throw new Exception("IP is not allowed to access Payoh's API, please contact support@payoh.me", 403);
 				break;
 			case 404:
-				throw new Exception("Check that the access URLs are correct. If yes, please contact support@lemonway.fr", 404);
-				print "Check that the access URLs are correct. If yes, please contact support@lemonway.fr";
+				throw new Exception("Check that the access URLs are correct. If yes, please contact support@l.me", 404);
+				print "Check that the access URLs are correct. If yes, please contact support@payoh.me";
 				break;
 			case 500:
-				throw new Exception("Lemon Way internal server error, please contact support@lemonway.fr", 500);
+				throw new Exception("Payoh internal server error, please contact support@payoh.me", 500);
 				break;
 			default:
 				throw  new Exception(sprintf("HTTP CODE %d IS NOT SUPPORTED",$responseCode), $responseCode);

@@ -1,18 +1,18 @@
 <?php
-require_once('class-wc-gateway-lemonway-request.php');
+require_once('class-wc-gateway-payoh-request.php');
 
-class WC_Gateway_Lemonway_Sofort_Request extends WC_Gateway_Lemonway_Request {
+class WC_Gateway_Payoh_Sofort_Request extends WC_Gateway_Payoh_Request {
 	/**
 	 * Constructor.
-	 * @param WC_Gateway_Lemonway_Sofort $gateway
+	 * @param WC_Gateway_Payoh_Sofort $gateway
 	 */
 	public function __construct( $gateway ) {
 		$this->gateway    = $gateway;
-		$this->notify_url = WC()->api_request_url( 'WC_Gateway_Lemonway_Sofort' );
+		$this->notify_url = WC()->api_request_url( 'WC_Gateway_Payoh_Sofort' );
 	}
 
 	/**
-	 * Get the Lemonway Webkit request URL for an order.
+	 * Get the Payoh Webkit request URL for an order.
 	 * @param  WC_Order $order
 	 * @return string
 	 */
@@ -23,7 +23,7 @@ class WC_Gateway_Lemonway_Sofort_Request extends WC_Gateway_Lemonway_Request {
         $amountCom = 0;
 		
 		/*if( function_exists( 'is_plugin_active' ) ) {
-			if ( is_plugin_active( 'lemonwaymkt/lemonwaymkt.php' ) ) {
+			if ( is_plugin_active( 'payohmkt/payohmkt.php' ) ) {
 				//@TODO manage mixted cart
 				
 				//Keep only subtotal for vendors because webkul plugin work like this :-(
@@ -31,7 +31,7 @@ class WC_Gateway_Lemonway_Sofort_Request extends WC_Gateway_Lemonway_Request {
 			}
 		}*/
 		
-		$comment = get_bloginfo( 'name' ) . " - " . sprintf(__('Order #%s by %s %s %s', LEMONWAY_SOFORT_TEXT_DOMAIN), $order->get_order_number(), $order->billing_last_name, $order->billing_first_name, $order->billing_email);
+		$comment = get_bloginfo( 'name' ) . " - " . sprintf(__('Order #%s by %s %s %s', PAYOH_SOFORT_TEXT_DOMAIN), $order->get_order_number(), $order->billing_last_name, $order->billing_first_name, $order->billing_email);
 		$returnUrl = '';
 
 		$params = array(
@@ -44,12 +44,12 @@ class WC_Gateway_Lemonway_Sofort_Request extends WC_Gateway_Lemonway_Request {
 				'autoCommission' 	=> 1
 		);
 
-		WC_Gateway_Lemonway_Sofort::log(print_r($params, true));
+		WC_Gateway_Payoh_Sofort::log(print_r($params, true));
 		
 		//Call APi MoneyInSofortInit in correct MODE with the args
 		$sofortInit = $this->gateway->getDirectkit()->MoneyInSofortInit($params);
 		
-		WC_Gateway_Lemonway_Sofort::log(print_r($sofortInit, true));
+		WC_Gateway_Payoh_Sofort::log(print_r($sofortInit, true));
 
 		$returnUrl = urldecode($sofortInit->actionUrl);
 		

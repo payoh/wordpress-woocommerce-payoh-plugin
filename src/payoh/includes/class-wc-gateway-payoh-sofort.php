@@ -3,22 +3,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-require_once('class-wc-gateway-lemonway.php');
+require_once('class-wc-gateway-payoh.php');
 
 /**
- * WC_Gateway_Lemonway_Sofort class.
+ * WC_Gateway_Payoh_Sofort class.
  *
- * @extends WC_Gateway_Lemonway
+ * @extends WC_Gateway_Payoh
  */
-class WC_Gateway_Lemonway_Sofort extends WC_Gateway_Lemonway {
+class WC_Gateway_Payoh_Sofort extends WC_Gateway_Payoh {
 	public function __construct() {
-		$lwGateway = new WC_Gateway_Lemonway();
+		$lwGateway = new WC_Gateway_Payoh();
 
-		$this->id                 = 'lemonway_sofort';
+		$this->id                 = 'payoh_sofort';
 		$this->icon 			  = ''; //@TODO
 		$this->has_fields         = true;
-		$this->method_title       = __( 'Lemonway Sofort', LEMONWAY_SOFORT_TEXT_DOMAIN );
-		$this->method_description = __('Secured payment solutions for Internet marketplaces, e-Commerce, and crowdfunding. Payment API. BackOffice management. Compliance. Regulatory reporting.',LEMONWAY_SOFORT_TEXT_DOMAIN);
+		$this->method_title       = __( 'Payoh Sofort', PAYOH_SOFORT_TEXT_DOMAIN );
+		$this->method_description = __('Secured payment solutions for Internet marketplaces, e-Commerce, and crowdfunding. Payment API. BackOffice management. Compliance. Regulatory reporting.',PAYOH_SOFORT_TEXT_DOMAIN);
 
 		// Load the settings.
 		$this->init_form_fields();
@@ -33,15 +33,15 @@ class WC_Gateway_Lemonway_Sofort extends WC_Gateway_Lemonway {
 		self::$log_enabled = $this->debug;
 
 		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
-		include_once( 'class-wc-gateway-lemonway-sofort-notif-handler.php' );
-		new WC_Gateway_Lemonway_Sofort_Notif_Handler($this);
+		include_once( 'class-wc-gateway-payoh-sofort-notif-handler.php' );
+		new WC_Gateway_Payoh_Sofort_Notif_Handler($this);
 	}
 
 	/**
 	 * Initialise Gateway Settings Form Fields.
 	 */
 	public function init_form_fields() {
-		$this->form_fields = include( 'settings-lemonway-sofort.php' );
+		$this->form_fields = include( 'settings-payoh-sofort.php' );
 	}
 
 	/**
@@ -50,10 +50,10 @@ class WC_Gateway_Lemonway_Sofort extends WC_Gateway_Lemonway {
 	 * @return array
 	 */
 	public function process_payment( $order_id ) {
-		include_once( 'class-wc-gateway-lemonway-sofort-request.php' );
+		include_once( 'class-wc-gateway-payoh-sofort-request.php' );
 		
 		$order = wc_get_order( $order_id );
-		$lw_request = new WC_Gateway_Lemonway_Sofort_Request( $this );
+		$lw_request = new WC_Gateway_Payoh_Sofort_Request( $this );
 	
 		return array(
 				'result'   => 'success',

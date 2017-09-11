@@ -5,12 +5,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Handles responses from Lemonway Notification.
+ * Handles responses from Payoh Notification.
  */
-class WC_Gateway_Lemonway_Notif_Handler {
+class WC_Gateway_Payoh_Notif_Handler {
 	/**
 	 * Pointer to gateway making the request.
-	 * @var WC_Gateway_Lemonway
+	 * @var WC_Gateway_Payoh
 	 */
 	protected $gateway;
 	
@@ -30,8 +30,8 @@ class WC_Gateway_Lemonway_Notif_Handler {
 	 * Constructor.
 	 */
 	public function __construct( $gateway ) {
-		add_action( 'woocommerce_api_wc_gateway_lemonway', array( $this, 'check_response' ) );
-		add_action( 'valid-lemonway-notif-request', array( $this, 'valid_response' ) );
+		add_action( 'woocommerce_api_wc_gateway_payoh', array( $this, 'check_response' ) );
+		add_action( 'valid-payoh-notif-request', array( $this, 'valid_response' ) );
 		$this->gateway = $gateway;
 	}
 
@@ -39,27 +39,27 @@ class WC_Gateway_Lemonway_Notif_Handler {
 	 * Check for Notification IPN Response.
 	 */
 	public function check_response() {
-		WC_Gateway_Lemonway::log($this->isPost() ? "Is POST request" : "Is GET Request");
+		WC_Gateway_Payoh::log($this->isPost() ? "Is POST request" : "Is GET Request");
 		$orderId = $this->isGet() ? wc_clean( $_GET['response_wkToken'] ) : wc_clean( $_POST['response_wkToken'] );
 		$this->order = wc_get_order($orderId);
 		if(!$this->order){
-			wp_die( 'Lemonway notification Request Failure. No Order Found!', 'Lemonway Notification', array( 'response' => 500 ) );
+			wp_die( 'Payoh notification Request Failure. No Order Found!', 'Payoh Notification', array( 'response' => 500 ) );
 		}
-		WC_Gateway_Lemonway::log( 'Found order in notif handler #' . $this->order->id );
+		WC_Gateway_Payoh::log( 'Found order in notif handler #' . $this->order->id );
 
-        WC_Gateway_Lemonway::log( 'GET: ' . print_r($_GET, true));
-        WC_Gateway_Lemonway::log( 'POST: ' . print_r($_POST, true));
+        WC_Gateway_Payoh::log( 'GET: ' . print_r($_GET, true));
+        WC_Gateway_Payoh::log( 'POST: ' . print_r($_POST, true));
 
 		if($this->isGet()) {
 			wp_redirect(esc_url_raw( $this->gateway->get_return_url( $this->order ))) ;
 			exit;
 		} elseif ( ! empty( $_POST ) && $this->validate_notif( wc_clean( $_POST['response_code'] ) ) ) {
 			//$posted = wp_unslash( $_POST );
-			do_action( 'valid-lemonway-notif-request', $this->order );
+			do_action( 'valid-payoh-notif-request', $this->order );
 			exit;
 		}
 
-		wp_die( 'Lemonway notification Request Failure', 'Lemonway Notification', array( 'response' => 500 ) );
+		wp_die( 'Payoh notification Request Failure', 'Payoh Notification', array( 'response' => 500 ) );
 	}
 	
 
@@ -80,7 +80,7 @@ class WC_Gateway_Lemonway_Notif_Handler {
 	}
 
 	/**
-	 * Check Lemonway Notification validity.
+	 * Check Payoh Notification validity.
 	 */
 	 protected function validate_notif($response_code)
     {
@@ -130,7 +130,7 @@ class WC_Gateway_Lemonway_Notif_Handler {
 	
 	
 			} catch (Exception $e) {
-				WC_Gateway_Lemonway::log($e->getMessage());
+				WC_Gateway_Payoh::log($e->getMessage());
 				throw $e;
 			}
 	
@@ -158,12 +158,12 @@ class WC_Gateway_Lemonway_Notif_Handler {
 	 */
 	protected function payment_status_completed( $order ) {
 		if ( $order->has_status( 'completed' ) ) {
-			WC_Gateway_Lemonway::log( 'Aborting, Order #' . $order->id . ' is already complete.' );
+			WC_Gateway_Payoh::log( 'Aborting, Order #' . $order->id . ' is already complete.' );
 			exit;
 		}
 
 		if (!$order->has_status( 'processing' )) {
-			$this->payment_complete( $order, ( ! empty( $_POST['response_transactionId'] ) ? wc_clean( $_POST['response_transactionId'] ) : '' ), __( 'Notification payment completed', LEMONWAY_TEXT_DOMAIN ) );
+			$this->payment_complete( $order, ( ! empty( $_POST['response_transactionId'] ) ? wc_clean( $_POST['response_transactionId'] ) : '' ), __( 'Notification payment completed', PAYOH_TEXT_DOMAIN ) );
 		}
 		
 	}
