@@ -12,7 +12,7 @@ $ git clone git@github.com:payoh/wordpress-woocommerce-payoh-plugin.git
   **Note:**  
   Don't forget to put your ssh public key into your gitlab account.  Else try with http connection:  
 ```
-$ git clone https://github.com/lemonwaysas/wordpress-woocommerce-lemonway-plugin.git
+$ git clone https://github.com/payoh/wordpress-woocommerce-payoh-plugin.git
 ```
 
 2.  Checkout into `develop` branch
@@ -35,7 +35,7 @@ $ git push
 
 6. Finally, send pull request
 
-  Go to your **github account** on this project and send a [pull request](https://github.com/lemonwaysas/wordpress-woocommerce-lemonway-plugin/pulls) to admin users.
+  Go to your **github account** on this project and send a [pull request](https://github.com/payoh/wordpress-woocommerce-payoh-plugin/pulls) to admin users.
 
 ### Build Wordpress package
 
@@ -63,7 +63,7 @@ If build package is successful you can see *zip file* in `dist/`.
 
 ## Wiki
 ---
-You can found some informations about installation,configuration and how to use this module in [Wiki](https://github.com/lemonwaysas/wordpress-woocommerce-lemonway-plugin/wiki).
+You can found some informations about installation,configuration and how to use this module in [Wiki](https://github.com/payoh/wordpress-woocommerce-payoh-plugin/wiki).
 
 
 

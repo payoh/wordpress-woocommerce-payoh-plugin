@@ -1,29 +1,29 @@
 <?php
 /*
- Plugin Name: Lemonway IDeal
- Plugin URI: https://www.lemonway.com
+ Plugin Name: Payoh IDeal
+ Plugin URI: https://www.payoh.com
  Description: Secured payment solutions for Internet marketplaces, eCommerce, and crowdfunding. Payment API. BackOffice management. Compliance. Regulatory reporting.
  Version: 1.1.2
- Author: Dat Pham <dpham@lemonway.com>
- Author URI: https://www.lemonway.com
+ Author: Dat Pham <dpham@payoh.com>
+ Author URI: https://www.payoh.com
  License: GPL2
  */
 
 if(!defined('ABSPATH')) exit; // Exit if accessed directly
 
-final class Lemonway_Ideal {
+final class Payoh_Ideal {
 	
 	/**
-	 * @var Lemonway_Ideal The single instance of the class
+	 * @var Payoh_Ideal The single instance of the class
 	 */
 	protected static $_instance = null;
 	
 	protected $name = "Lemon Way IDeal";
-	protected $slug = 'lemonway-ideal';
+	protected $slug = 'payoh-ideal';
 	
 	/**
 	 * Pointer to gateway making the request.
-	 * @var WC_Gateway_Lemonway_Ideal
+	 * @var WC_Gateway_Payoh_Ideal
 	 */
 	protected $gateway;
 	
@@ -53,10 +53,10 @@ final class Lemonway_Ideal {
      }
      
      /**
-      * Add menu Lemonway IDeal
+      * Add menu Payoh IDeal
       */
      public function add_admin_menu(){
-     	add_submenu_page('lemonway', __( 'Configuration IDeal', LEMONWAY_IDEAL_TEXT_DOMAIN ), __( 'Configuration IDeal', LEMONWAY_IDEAL_TEXT_DOMAIN ), 'manage_product_terms', $this->slug . 'configuration', array($this, 'redirect_configuration'));
+     	add_submenu_page('payoh', __( 'Configuration IDeal', PAYOH_IDEAL_TEXT_DOMAIN ), __( 'Configuration IDeal', PAYOH_IDEAL_TEXT_DOMAIN ), 'manage_product_terms', $this->slug . 'configuration', array($this, 'redirect_configuration'));
      }
      
      public function init_gateway() {
@@ -65,8 +65,8 @@ final class Lemonway_Ideal {
       }
    
       // Includes
-      include_once( 'includes/class-wc-gateway-lemonway-ideal.php' );
-      $this->gateway = new WC_Gateway_Lemonway_Ideal();
+      include_once( 'includes/class-wc-gateway-payoh-ideal.php' );
+      $this->gateway = new WC_Gateway_Payoh_Ideal();
     }
      
      /**
@@ -76,27 +76,27 @@ final class Lemonway_Ideal {
       * the same translation is present.
       *
       * Locales found in:
-      *      - WP_LANG_DIR/lemonway/woocommerce-gateway-lemonway-LOCALE.mo
-      *      - WP_LANG_DIR/plugins/lemonway-LOCALE.mo
+      *      - WP_LANG_DIR/payoh/woocommerce-gateway-payoh-LOCALE.mo
+      *      - WP_LANG_DIR/plugins/payoh-LOCALE.mo
       */
      public function load_plugin_textdomain() {
-     	$locale = apply_filters( 'plugin_locale', get_locale(), LEMONWAY_IDEAL_TEXT_DOMAIN );
+     	$locale = apply_filters( 'plugin_locale', get_locale(), PAYOH_IDEAL_TEXT_DOMAIN );
      	$dir    = trailingslashit( WP_LANG_DIR );
      
-     	load_textdomain( LEMONWAY_IDEAL_TEXT_DOMAIN, $dir . 'lemonway/lemonway-' . $locale . '.mo' );
-     	load_plugin_textdomain( LEMONWAY_IDEAL_TEXT_DOMAIN, false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+     	load_textdomain( PAYOH_IDEAL_TEXT_DOMAIN, $dir . 'payoh/payoh-' . $locale . '.mo' );
+     	load_plugin_textdomain( PAYOH_IDEAL_TEXT_DOMAIN, false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
      }
      
      /**
       * Add the gateway to methods
       */
      public function add_gateway( $methods ) {  
-     	$methods[] = 'WC_Gateway_Lemonway_Ideal';
+     	$methods[] = 'WC_Gateway_Payoh_Ideal';
      	return $methods;
      }
      
      public function redirect_configuration(){
-     	wp_redirect(admin_url( 'admin.php?page=wc-settings&tab=checkout&section=wc_gateway_lemonway_ideal' ),301);
+     	wp_redirect(admin_url( 'admin.php?page=wc-settings&tab=checkout&section=wc_gateway_payoh_ideal' ),301);
      }
      
      /**
@@ -107,19 +107,19 @@ final class Lemonway_Ideal {
      public function plugin_action_links( $links ) {
 
      	$plugin_links = array(
-     			'<a href="' . admin_url( 'admin.php?page=wc-settings&tab=checkout&section=wc_gateway_lemonway_ideal' ) . '">' . __( 'Settings', LEMONWAY_IDEAL_TEXT_DOMAIN ) . '</a>',
+     			'<a href="' . admin_url( 'admin.php?page=wc-settings&tab=checkout&section=wc_gateway_payoh_ideal' ) . '">' . __( 'Settings', PAYOH_IDEAL_TEXT_DOMAIN ) . '</a>',
      	);
      	return array_merge( $plugin_links, $links );
      }
      
      /**
-      * Main Lemonway_Ideal Instance
+      * Main Payoh_Ideal Instance
       *
-      * Ensures only one instance of Lemonway_Ideal is loaded or can be loaded.
+      * Ensures only one instance of Payoh_Ideal is loaded or can be loaded.
       *
       * @static
       * @see LW_ideal()
-      * @return Lemonway_Ideal - Main instance
+      * @return Payoh_Ideal - Main instance
       */
      public static function instance() {
      	if ( is_null( self::$_instance ) ) {
@@ -134,8 +134,8 @@ final class Lemonway_Ideal {
       * @access private
       */
      private function define_constants() {
-      define( 'LEMONWAY_IDEAL_NAME', $this->name );
-      define( 'LEMONWAY_IDEAL_TEXT_DOMAIN', $this->slug );
+      define( 'PAYOH_IDEAL_NAME', $this->name );
+      define( 'PAYOH_IDEAL_TEXT_DOMAIN', $this->slug );
      }
 
      /**
@@ -150,7 +150,7 @@ final class Lemonway_Ideal {
       //@TODO version compare
      
       if( function_exists( 'is_plugin_active' ) ) {
-        if ( !is_plugin_active( 'lemonway/lemonway.php' ) ) {
+        if ( !is_plugin_active( 'payoh/payoh.php' ) ) {
           add_action('admin_notices', array( &$this, 'alert_lw_not_active' ) );
           return false;
         }
@@ -160,18 +160,18 @@ final class Lemonway_Ideal {
      }
 
      /**
-      * Display the Lemonway_Ideal requirement notice.
+      * Display the Payoh_Ideal requirement notice.
       *
       * @access static
       */
      static function alert_lw_not_active() {
       echo '<div id="message" class="error"><p>';
-      echo sprintf( __('Sorry, <strong>%s</strong> requires Lemonway to be installed and activated first. Please install Lemonway plugin first.', LEMONWAY_IDEAL_TEXT_DOMAIN), LEMONWAY_IDEAL_NAME );
+      echo sprintf( __('Sorry, <strong>%s</strong> requires Payoh to be installed and activated first. Please install Payoh plugin first.', PAYOH_IDEAL_TEXT_DOMAIN), PAYOH_IDEAL_NAME );
       echo '</p></div>';
      }
 }
 
 function LW_ideal(){
-	return Lemonway_Ideal::instance();
+	return Payoh_Ideal::instance();
 }
 LW_ideal();

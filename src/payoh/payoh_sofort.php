@@ -1,11 +1,11 @@
 <?php
 /*
  Plugin Name: Lemonway Sofort
- Plugin URI: https://www.lemonway.fr/
+ Plugin URI: https://www.payoh.fr/
  Description: Secured payment solutions for Internet marketplaces, eCommerce, and crowdfunding. Payment API. BackOffice management. Compliance. Regulatory reporting.
  Version: 1.1.2
- Author: Dat Pham <dpham@lemonway.com>
- Author URI: https://www.lemonway.com
+ Author: Dat Pham <dpham@payoh.com>
+ Author URI: https://www.payoh.com
  License: GPL2
  */
 
@@ -18,12 +18,12 @@ final class Lemonway_Sofort {
 	 */
 	protected static $_instance = null;
 	
-	protected $name = "Lemon Way Sofort";
-	protected $slug = 'lemonway-sofort';
+	protected $name = "Payoh Sofort";
+	protected $slug = 'payoh-sofort';
 	
 	/**
 	 * Pointer to gateway making the request.
-	 * @var WC_Gateway_Lemonway_Sofort
+	 * @var WC_Gateway_Payoh_Sofort
 	 */
 	protected $gateway;
 	
@@ -53,10 +53,10 @@ final class Lemonway_Sofort {
      }
      
      /**
-      * Add menu Lemonway Sofort
+      * Add menu Payoh Sofort
       */
      public function add_admin_menu(){
-     	add_submenu_page('lemonway', __( 'Configuration Sofort',LEMONWAY_SOFORT_TEXT_DOMAIN ), __( 'Configuration Sofort',LEMONWAY_SOFORT_TEXT_DOMAIN ), 'manage_product_terms', $this->slug . 'configuration', array($this, 'redirect_configuration'));
+     	add_submenu_page('payoh', __( 'Configuration Sofort',PAYOH_SOFORT_TEXT_DOMAIN ), __( 'Configuration Sofort',PAYOH_SOFORT_TEXT_DOMAIN ), 'manage_product_terms', $this->slug . 'configuration', array($this, 'redirect_configuration'));
      }
      
      public function init_gateway() {
@@ -65,8 +65,8 @@ final class Lemonway_Sofort {
       }
    
       // Includes
-      include_once( 'includes/class-wc-gateway-lemonway-sofort.php' );
-      $this->gateway = new WC_Gateway_Lemonway_Sofort();
+      include_once( 'includes/class-wc-gateway-payoh-sofort.php' );
+      $this->gateway = new WC_Gateway_Payoh_Sofort();
     }
      
      /**
@@ -76,27 +76,27 @@ final class Lemonway_Sofort {
       * the same translation is present.
       *
       * Locales found in:
-      *      - WP_LANG_DIR/lemonway/woocommerce-gateway-lemonway-LOCALE.mo
-      *      - WP_LANG_DIR/plugins/lemonway-LOCALE.mo
+      *      - WP_LANG_DIR/payoh/woocommerce-gateway-payoh-LOCALE.mo
+      *      - WP_LANG_DIR/plugins/payoh-LOCALE.mo
       */
      public function load_plugin_textdomain() {
-     	$locale = apply_filters( 'plugin_locale', get_locale(), LEMONWAY_SOFORT_TEXT_DOMAIN );
+     	$locale = apply_filters( 'plugin_locale', get_locale(), PAYOH_SOFORT_TEXT_DOMAIN );
      	$dir    = trailingslashit( WP_LANG_DIR );
      
-     	load_textdomain( LEMONWAY_SOFORT_TEXT_DOMAIN, $dir . 'lemonway/lemonway-' . $locale . '.mo' );
-     	load_plugin_textdomain( LEMONWAY_SOFORT_TEXT_DOMAIN, false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+     	load_textdomain( PAYOH_SOFORT_TEXT_DOMAIN, $dir . 'payoh/payoh-' . $locale . '.mo' );
+     	load_plugin_textdomain( PAYOH_SOFORT_TEXT_DOMAIN, false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
      }
      
      /**
       * Add the gateway to methods
       */
      public function add_gateway( $methods ) {  
-     	$methods[] = 'WC_Gateway_Lemonway_Sofort';
+     	$methods[] = 'WC_Gateway_Payoh_Sofort';
      	return $methods;
      }
      
      public function redirect_configuration(){
-     	wp_redirect(admin_url( 'admin.php?page=wc-settings&tab=checkout&section=wc_gateway_lemonway_sofort' ),301);
+     	wp_redirect(admin_url( 'admin.php?page=wc-settings&tab=checkout&section=wc_gateway_payoh_sofort' ),301);
      }
      
      /**
@@ -107,19 +107,19 @@ final class Lemonway_Sofort {
      public function plugin_action_links( $links ) {
 
      	$plugin_links = array(
-     			'<a href="' . admin_url( 'admin.php?page=wc-settings&tab=checkout&section=wc_gateway_lemonway_sofort' ) . '">' . __( 'Settings', LEMONWAY_SOFORT_TEXT_DOMAIN ) . '</a>',
+     			'<a href="' . admin_url( 'admin.php?page=wc-settings&tab=checkout&section=wc_gateway_payoh_sofort' ) . '">' . __( 'Settings', PAYOH_SOFORT_TEXT_DOMAIN ) . '</a>',
      	);
      	return array_merge( $plugin_links, $links );
      }
      
      /**
-      * Main Lemonway_Sofort Instance
+      * Main Payoh_Sofort Instance
       *
-      * Ensures only one instance of Lemonway_Sofort is loaded or can be loaded.
+      * Ensures only one instance of Payoh_Sofort is loaded or can be loaded.
       *
       * @static
       * @see LW_sofort()
-      * @return Lemonway_Sofort - Main instance
+      * @return Payoh_Sofort - Main instance
       */
      public static function instance() {
      	if ( is_null( self::$_instance ) ) {
@@ -134,8 +134,8 @@ final class Lemonway_Sofort {
       * @access private
       */
      private function define_constants() {
-      define( 'LEMONWAY_SOFORT_NAME', $this->name );
-      define( 'LEMONWAY_SOFORT_TEXT_DOMAIN', $this->slug );
+      define( 'PAYOH_SOFORT_NAME', $this->name );
+      define( 'PAYOH_SOFORT_TEXT_DOMAIN', $this->slug );
      }
 
      /**
@@ -150,7 +150,7 @@ final class Lemonway_Sofort {
       //@TODO version compare
      
       if( function_exists( 'is_plugin_active' ) ) {
-        if ( !is_plugin_active( 'lemonway/lemonway.php' ) ) {
+        if ( !is_plugin_active( 'payoh/payoh.php' ) ) {
           add_action('admin_notices', array( &$this, 'alert_lw_not_active' ) );
           return false;
         }
@@ -160,18 +160,18 @@ final class Lemonway_Sofort {
      }
 
      /**
-      * Display the Lemonway_Sofort requirement notice.
+      * Display the Payoh_Sofort requirement notice.
       *
       * @access static
       */
      static function alert_lw_not_active() {
       echo '<div id="message" class="error"><p>';
-      echo sprintf( __('Sorry, <strong>%s</strong> requires Lemonway to be installed and activated first. Please install Lemonway plugin first.', LEMONWAY_SOFORT_TEXT_DOMAIN), LEMONWAY_SOFORT_NAME );
+      echo sprintf( __('Sorry, <strong>%s</strong> requires Payoh to be installed and activated first. Please install Payoh plugin first.', PAYOH_SOFORT_TEXT_DOMAIN), PAYOH_SOFORT_NAME );
       echo '</p></div>';
      }
 }
 
 function LW_sofort(){
-	return Lemonway_Sofort::instance();
+	return Payoh_Sofort::instance();
 }
 LW_sofort();

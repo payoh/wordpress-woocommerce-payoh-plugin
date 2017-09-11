@@ -3,14 +3,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 require_once 'services/DirectkitJson.php';
-include_once( 'class-wc-gateway-lemonway-notif-handler.php' );
+include_once( 'class-wc-gateway-payoh-notif-handler.php' );
 
 /**
- * WC_Gateway_Lemonway class.
+ * WC_Gateway_Payoh class.
  *
  * @extends WC_Payment_Gateway
  */
-class WC_Gateway_Lemonway extends WC_Payment_Gateway {
+class WC_Gateway_Payoh extends WC_Payment_Gateway {
 	
 	/** @var bool Whether or not logging is enabled */
 	public static $log_enabled = false;
@@ -86,7 +86,7 @@ class WC_Gateway_Lemonway extends WC_Payment_Gateway {
 	
 	/**
 	 * 
-	 * @var WC_Gateway_Lemonway_Notif_Handler $notifhandler
+	 * @var WC_Gateway_Payoh_Notif_Handler $notifhandler
 	 */
 	protected $notifhandler;
 	
@@ -112,10 +112,10 @@ class WC_Gateway_Lemonway extends WC_Payment_Gateway {
 	 * Constructor for the gateway.
 	 */
 	public function __construct() {
-		$this->id  = 'lemonway';
+		$this->id  = 'payoh';
 		$this->icon = ''; //@TODO
 		$this->has_fields = true;
-		$this->method_title = __( 'Lemonway', LEMONWAY_TEXT_DOMAIN );
+		$this->method_title = __( 'Payoh', PAYOH_TEXT_DOMAIN );
 		$this->method_description = __('Secured payment solutions for Internet marketplaces, e-Commerce, and crowdfunding. Payment API. BackOffice management. Compliance. Regulatory reporting.', LEMONWAY_TEXT_DOMAIN);
 
 		// Load the settings.
@@ -148,11 +148,11 @@ class WC_Gateway_Lemonway extends WC_Payment_Gateway {
 		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
 
 		//Init notification handler
-		$this->notifhandler =  new WC_Gateway_Lemonway_Notif_Handler( $this );
+		$this->notifhandler =  new WC_Gateway_Payoh_Notif_Handler( $this );
 	}
 	
 	/**
-	 * @return WC_Gateway_Lemonway_Notif_Handler
+	 * @return WC_Gateway_Payoh_Notif_Handler
 	 */
 	public function getNotifhandler(){
 		return $this->notifhandler;
@@ -219,16 +219,16 @@ class WC_Gateway_Lemonway extends WC_Payment_Gateway {
 			);
 		}
 	
-		$fields = wp_parse_args( $fields, apply_filters( 'lemonway_oneclic_form_fields', $oneclic_fields, $this->id ) );
+		$fields = wp_parse_args( $fields, apply_filters( 'payoh_oneclic_form_fields', $oneclic_fields, $this->id ) );
 		?>
 			<fieldset id="<?php echo esc_attr( $this->id ); ?>-oneclic-form">
-				<?php do_action( 'lemonway_oneclic_form_start', $this->id ); ?>
+				<?php do_action( 'payoh_oneclic_form_start', $this->id ); ?>
 				<?php
 					foreach ( $fields as $field ) {
 						echo $field;
 					}
 				?>
-				<?php do_action( 'lemonway_oneclic_form_end', $this->id ); ?>
+				<?php do_action( 'payoh_oneclic_form_end', $this->id ); ?>
 				<div class="clear"></div>
 			</fieldset>
 			<?php
@@ -240,10 +240,10 @@ class WC_Gateway_Lemonway extends WC_Payment_Gateway {
 	 * @return array
 	 */
 	public function process_payment( $order_id ) {
-		include_once( 'class-wc-gateway-lemonway-request.php' );
+		include_once( 'class-wc-gateway-payoh-request.php' );
 	
 		$order          = wc_get_order( $order_id );
-		$lw_request = new WC_Gateway_Lemonway_Request( $this );
+		$lw_request = new WC_Gateway_Payoh_Request( $this );
 	
 		return array(
 				'result'   => 'success',
@@ -267,7 +267,7 @@ class WC_Gateway_Lemonway extends WC_Payment_Gateway {
 			if ( empty( self::$log ) ) {
 				self::$log = new WC_Logger();
 			}
-			self::$log->add( 'lemonway', $message );
+			self::$log->add( 'payoh', $message );
 		}
 	}
 	
@@ -275,7 +275,7 @@ class WC_Gateway_Lemonway extends WC_Payment_Gateway {
 	 * Initialise Gateway Settings Form Fields.
 	 */
 	public function init_form_fields() {
-		$this->form_fields = include( 'settings-lemonway.php' );
+		$this->form_fields = include( 'settings-payoh.php' );
 	}
 
 }

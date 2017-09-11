@@ -1,7 +1,7 @@
 <?php
 /*
- Plugin Name: Lemonway
- Plugin URI: https://www.lemonway.com
+ Plugin Name: Payoh
+ Plugin URI: https://www.payoh.me
  Description: Secured payment solutions for Internet marketplaces, eCommerce, and crowdfunding. Payment API. BackOffice management. Compliance. Regulatory reporting.
  Version: 1.1.3
  Author: Kassim Belghait <kassim@sirateck.com>
@@ -11,20 +11,20 @@
 
 if(!defined('ABSPATH')) exit; // Exit if accessed directly
 
-final class Lemonway {
+final class Payoh {
 	
 	
 	/**
-	 * @var Lemonway The single instance of the class
+	 * @var Payoh The single instance of the class
 	 */
 	protected static $_instance = null;
 	
 	protected $name = "Secured payment solutions for Internet marketplaces, eCommerce, and crowdfunding. Payment API. BackOffice management. Compliance. Regulatory reporting.";
-	protected $slug = 'lemonway';
+	protected $slug = 'payoh';
 	
 	/**
 	 * Pointer to gateway making the request.
-	 * @var WC_Gateway_Lemonway
+	 * @var WC_Gateway_Payoh
 	 */
 	protected $gateway;
 	
@@ -56,13 +56,13 @@ final class Lemonway {
      }
      
      /**
-      * Add menu Lemonway
+      * Add menu Payoh
       */
      public function add_admin_menu(){
 
-     	add_menu_page( __( 'Lemonway',LEMONWAY_TEXT_DOMAIN ),__( 'Lemonway ',LEMONWAY_TEXT_DOMAIN ), 'manage_product_terms', $this->slug, null, null, '58' );
-     	add_submenu_page($this->slug, __( 'Moneyout ',LEMONWAY_TEXT_DOMAIN ), __( 'Moneyout ',LEMONWAY_TEXT_DOMAIN ), 'manage_product_terms', $this->slug, array($this, 'moneyout_html'));
-     	add_submenu_page($this->slug, __( 'Configuration ',LEMONWAY_TEXT_DOMAIN ), __( 'Configuration ',LEMONWAY_TEXT_DOMAIN ), 'manage_product_terms', $this->slug . 'configuration', array($this, 'redirect_configuration'));
+     	add_menu_page( __( 'Payoh',PAYOH_TEXT_DOMAIN ),__( 'Payoh ',PAYOH_TEXT_DOMAIN ), 'manage_product_terms', $this->slug, null, null, '58' );
+     	add_submenu_page($this->slug, __( 'Moneyout ',PAYOH_TEXT_DOMAIN ), __( 'Moneyout ',PAYOH_TEXT_DOMAIN ), 'manage_product_terms', $this->slug, array($this, 'moneyout_html'));
+     	add_submenu_page($this->slug, __( 'Configuration ',PAYOH_TEXT_DOMAIN ), __( 'Configuration ',PAYOH_TEXT_DOMAIN ), 'manage_product_terms', $this->slug . 'configuration', array($this, 'redirect_configuration'));
 
      }
      
@@ -75,8 +75,8 @@ final class Lemonway {
      	}
      
      	// Includes
-     	include_once( 'includes/class-wc-gateway-lemonway.php' );
-		$this->gateway = new WC_Gateway_Lemonway();
+     	include_once( 'includes/class-wc-gateway-payoh.php' );
+		$this->gateway = new WC_Gateway_Payoh();
      }
      
      /**
@@ -86,27 +86,27 @@ final class Lemonway {
       * the same translation is present.
       *
       * Locales found in:
-      *      - WP_LANG_DIR/lemonway/woocommerce-gateway-lemonway-LOCALE.mo
-      *      - WP_LANG_DIR/plugins/lemonway-LOCALE.mo
+      *      - WP_LANG_DIR/payoh/woocommerce-gateway-payoh-LOCALE.mo
+      *      - WP_LANG_DIR/plugins/payoh-LOCALE.mo
       */
      public function load_plugin_textdomain() {
-     	$locale = apply_filters( 'plugin_locale', get_locale(), LEMONWAY_TEXT_DOMAIN );
+     	$locale = apply_filters( 'plugin_locale', get_locale(), PAYOH_TEXT_DOMAIN );
      	$dir    = trailingslashit( WP_LANG_DIR );
      
-     	load_textdomain( LEMONWAY_TEXT_DOMAIN, $dir . 'lemonway/lemonway-' . $locale . '.mo' );
-     	load_plugin_textdomain( LEMONWAY_TEXT_DOMAIN, false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+     	load_textdomain( PAYOH_TEXT_DOMAIN, $dir . 'payoh/payoh-' . $locale . '.mo' );
+     	load_plugin_textdomain( PAYOH_TEXT_DOMAIN, false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
      }
      
      /**
       * Add the gateway to methods
       */
      public function add_gateway( $methods ) {  
-     	$methods[] = 'WC_Gateway_Lemonway';
+     	$methods[] = 'WC_Gateway_Payoh';
      	return $methods;
      }
      
      public function redirect_configuration(){
-     	wp_redirect(admin_url( 'admin.php?page=wc-settings&tab=checkout&section=wc_gateway_lemonway' ),301);
+     	wp_redirect(admin_url( 'admin.php?page=wc-settings&tab=checkout&section=wc_gateway_payoh' ),301);
      }
      
      public function moneyout_html(){
@@ -114,7 +114,7 @@ final class Lemonway {
      	
      	$walletId = $this->gateway->getMerchantWalletId();
      	if(empty($walletId)){
-     		echo __('You need to enter your Wallet Id in',LEMONWAY_TEXT_DOMAIN) . '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=checkout&section=wc_gateway_lemonway' ) . '">' . __( 'Settings', LEMONWAY_TEXT_DOMAIN ) . '</a>';
+     		echo __('You need to enter your Wallet Id in',PAYOH_TEXT_DOMAIN) . '<a href="' . admin_url( 'admin.php?page=wc-settings&tab=checkout&section=wc_gateway_payoh' ) . '">' . __( 'Settings', PAYOH_TEXT_DOMAIN ) . '</a>';
      		return;
      	}
      	
@@ -139,11 +139,11 @@ final class Lemonway {
  			$amountToPay = (float)str_replace(",", ".", wc_clean( $_POST['amountToPay'] ) );
  			 
  			if ($amountToPay > $wallet->BAL) {
- 				$message = sprintf(__("You can't paid amount upper of your balance amount: %s",LEMONWAY_TEXT_DOMAIN), wc_price($wallet->BAL));
+ 				$message = sprintf(__("You can't paid amount upper of your balance amount: %s",PAYOH_TEXT_DOMAIN), wc_price($wallet->BAL));
  				echo '<div id="message" class="error notice-error is-dismissible"><p>' . $message. '</p></div>';
  			}
  			elseif($amountToPay <= 0) {
- 				$message = __("Amount must be greater than 0",LEMONWAY_TEXT_DOMAIN);
+ 				$message = __("Amount must be greater than 0",PAYOH_TEXT_DOMAIN);
  				echo '<div id="message" class="error notice-error is-dismissible"><p>' . esc_html( $message ). '</p></div>';
  				 
  			}
@@ -160,7 +160,7 @@ final class Lemonway {
  								"wallet" => $wallet->ID,
  								"amountTot" => sprintf("%.2f", $amountToPay),
  								"amountCom" => sprintf("%.2f", (float)0),
- 								"message" => __("Moneyout from Wordpress Woocommerce module", LEMONWAY_TEXT_DOMAIN),
+ 								"message" => __("Moneyout from Wordpress Woocommerce module", PAYOH_TEXT_DOMAIN),
  								"ibanId" => $ibanId,
  						);
  		
@@ -168,12 +168,12 @@ final class Lemonway {
  		
  						if($op->STATUS == "3"){
  							$wallet->BAL = $wallet->BAL - $amountToPay;
- 							$message = sprintf(__("You paid %s to your Iban %s from your wallet <b>%s</b>",LEMONWAY_TEXT_DOMAIN),wc_price($amountToPay), $iban, $wallet->ID);
+ 							$message = sprintf(__("You paid %s to your Iban %s from your wallet <b>%s</b>",PAYOH_TEXT_DOMAIN),wc_price($amountToPay), $iban, $wallet->ID);
  							echo '<div id="message" class="updated notice is-dismissible"><p>' . $message . '</p></div>';
  			     
  						}
  						else {
- 							$message = __("An error occurred. Please contact support.",LEMONWAY_TEXT_DOMAIN);
+ 							$message = __("An error occurred. Please contact support.",PAYOH_TEXT_DOMAIN);
  							echo '<div id="message" class="error notice-error is-dismissible"><p>' . esc_html( $message ) . '</p></div>';
  						}
  			    
@@ -182,7 +182,7 @@ final class Lemonway {
  					}
  				}
  				else {
- 					$message = __('Please select an IBAN at least',LEMONWAY_TEXT_DOMAIN) ;
+ 					$message = __('Please select an IBAN at least',PAYOH_TEXT_DOMAIN) ;
  					echo '<div id="message" class="error notice-error is-dismissible"><p>' . esc_html( $message ) . '</p></div>';
  				}
  			} 
@@ -191,34 +191,34 @@ final class Lemonway {
  		          <form method="post" action="">
                     <?php wp_nonce_field('moneyout_' . $wallet->ID); ?>
  		          	<div class="card wallet-info" >
- 		          		<h3><?php echo __('Wallet informations', LEMONWAY_TEXT_DOMAIN) ?></h3>
+ 		          		<h3><?php echo __('Wallet informations', PAYOH_TEXT_DOMAIN) ?></h3>
  		          <table >
  		            <tr>
- 		                <td class="label"><label ><?php echo __('Wallet ID', LEMONWAY_TEXT_DOMAIN)?></label></td>
+ 		                <td class="label"><label ><?php echo __('Wallet ID', PAYOH_TEXT_DOMAIN)?></label></td>
  		                <td class="value">
  		                    <strong><?php echo esc_html( $wallet->ID ) ?></strong>
  		                </td>
  		            </tr>
  		            <tr>
- 		                <td class="label"><label ><?php echo __('Balance', LEMONWAY_TEXT_DOMAIN)?></label></td>
+ 		                <td class="label"><label ><?php echo __('Balance', PAYOH_TEXT_DOMAIN)?></label></td>
  		                <td class="value">
  		                    <strong><?php echo wc_price(esc_html( $wallet->BAL ) ) ?></strong>
  		                </td>
  		            </tr>
  		            <tr>
- 		                <td class="label"><label ><?php echo __('Owner name', LEMONWAY_TEXT_DOMAIN)?></label></td>
+ 		                <td class="label"><label ><?php echo __('Owner name', PAYOH_TEXT_DOMAIN)?></label></td>
  		                <td class="value">
  		                    <strong><?php echo esc_html( $wallet->NAME ) ?></strong>
  		                </td>
  		            </tr>
  		            <tr>
- 		                <td class="label"><label ><?php echo __('Owner email', LEMONWAY_TEXT_DOMAIN)?></label></td>
+ 		                <td class="label"><label ><?php echo __('Owner email', PAYOH_TEXT_DOMAIN)?></label></td>
  		                <td class="value">
  		                    <strong><?php echo esc_html( $wallet->EMAIL ) ?></strong>
  		                </td>
  		            </tr>
  		            <tr>
- 		                <td class="label"><label ><?php echo __('Status', LEMONWAY_TEXT_DOMAIN)?></label></td>
+ 		                <td class="label"><label ><?php echo __('Status', PAYOH_TEXT_DOMAIN)?></label></td>
  		                <td class="value">
  		                    <strong><?php echo esc_html( $wallet->getStatusLabel() ) ?></strong>
  		                </td>
@@ -226,10 +226,10 @@ final class Lemonway {
  		        </table>
  		          	</div>
  		          	<div class="card iban-info">
- 		          		<h3><?php echo __('Iban informations',LEMONWAY_TEXT_DOMAIN) ?></h3>
+ 		          		<h3><?php echo __('Iban informations',PAYOH_TEXT_DOMAIN) ?></h3>
  		          		<?php if(count($wallet->ibans)) :?>
  				        <table>
- 				        <tr><td colspan="2"><?php echo __('Select an Iban', LEMONWAY_TEXT_DOMAIN) ?></td></tr>
+ 				        <tr><td colspan="2"><?php echo __('Select an Iban', PAYOH_TEXT_DOMAIN) ?></td></tr>
  					        <?php foreach ($wallet->ibans as $_iban) : /** @var $_iban Iban */?>
  					        <tr>
  					        	<td>
@@ -242,7 +242,7 @@ final class Lemonway {
  					                    <br />
  					                    <strong><?php echo esc_html( $_iban->BIC ) ?></strong>
  					                    <br />
- 					                  <!--   <?php //echo __('Status',LEMONWAY_TEXT_DOMAIN)?>&nbsp;<strong><?php // echo $_iban->STATUS ?></strong> -->
+ 					                  <!--   <?php //echo __('Status',PAYOH_TEXT_DOMAIN)?>&nbsp;<strong><?php // echo $_iban->STATUS ?></strong> -->
  					                </label>
  								</td>
  					        </tr>
@@ -250,15 +250,15 @@ final class Lemonway {
  				        </table>
  				        <?php else:?>
  				        	<div class="box">
- 						    	<h4><?php echo __("You don't have any Iban!", LEMONWAY_TEXT_DOMAIN)?></h4> 
- 						    	<?php echo sprintf(__('Please create at least one for wallet <b>%s</b> in Lemonway BO.', LEMONWAY_TEXT_DOMAIN), esc_html( $wallet->ID )) ?>
+ 						    	<h4><?php echo __("You don't have any Iban!", PAYOH_TEXT_DOMAIN)?></h4>
+ 						    	<?php echo sprintf(__('Please create at least one for wallet <b>%s</b> in Payoh BO.', PAYOH_TEXT_DOMAIN), esc_html( $wallet->ID )) ?>
  						    </div>
  				        <?php endif; ?>
  		          	</div>
  		          	
  		          	<?php if(count($wallet->ibans) && (float)$wallet->BAL > 0) :?>
  		          	<div class="card moneyout-form" >
- 		          		<h3><?php echo __('Moneyout informations', LEMONWAY_TEXT_DOMAIN) ?></h3>
+ 		          		<h3><?php echo __('Moneyout informations', PAYOH_TEXT_DOMAIN) ?></h3>
  		          		
  						    <table class="form-table">
  						    	<tbody>
@@ -303,19 +303,19 @@ final class Lemonway {
      public function plugin_action_links( $links ) {
 
      	$plugin_links = array(
-     			'<a href="' . admin_url( 'admin.php?page=wc-settings&tab=checkout&section=wc_gateway_lemonway' ) . '">' . __( 'Settings', LEMONWAY_TEXT_DOMAIN ) . '</a>',
+     			'<a href="' . admin_url( 'admin.php?page=wc-settings&tab=checkout&section=wc_gateway_payoh' ) . '">' . __( 'Settings', PAYOH_TEXT_DOMAIN ) . '</a>',
      	);
      	return array_merge( $plugin_links, $links );
      }
      
      /**
-      * Main Lemonway Instance
+      * Main Payoh Instance
       *
-      * Ensures only one instance of Lemonway is loaded or can be loaded.
+      * Ensures only one instance of Payoh is loaded or can be loaded.
       *
       * @static
       * @see LW()
-      * @return Lemonway - Main instance
+      * @return Payoh - Main instance
       */
      public static function instance() {
      	if ( is_null( self::$_instance ) ) {
@@ -332,9 +332,9 @@ final class Lemonway {
      private function define_constants() {
      
      	$woo_version_installed = get_option('woocommerce_version');
-     	define( 'LEMONWAY_WOOVERSION', $woo_version_installed );
-     	define( 'LEMONWAY_NAME', $this->name );
-     	define( 'LEMONWAY_TEXT_DOMAIN', $this->slug );
+     	define( 'PAYOH_WOOVERSION', $woo_version_installed );
+     	define( 'PAYOH_NAME', $this->name );
+     	define( 'PAYOH_TEXT_DOMAIN', $this->slug );
      }
      
      
@@ -370,7 +370,7 @@ final class Lemonway {
       */
      static function alert_woo_not_active() {
      	echo '<div id="message" class="error"><p>';
-     	echo sprintf( __('Sorry, <strong>%s</strong> requires WooCommerce to be installed and activated first. Please <a href="%s">install WooCommerce</a> first.', LEMONWAY_TEXT_DOMAIN), LEMONWAY_NAME, admin_url('plugin-install.php?tab=search&type=term&s=WooCommerce') );
+     	echo sprintf( __('Sorry, <strong>%s</strong> requires WooCommerce to be installed and activated first. Please <a href="%s">install WooCommerce</a> first.', PAYOH_TEXT_DOMAIN), PAYOH_NAME, admin_url('plugin-install.php?tab=search&type=term&s=WooCommerce') );
      	echo '</p></div>';
      }
      
@@ -385,7 +385,7 @@ final class Lemonway {
      
      	$sql = array();
 
-		$sql[] = 'CREATE TABLE IF NOT EXISTS `'.$wpdb->prefix.'lemonway_oneclic` (
+		$sql[] = 'CREATE TABLE IF NOT EXISTS `'.$wpdb->prefix.'payoh_oneclic` (
 		    `id_oneclic` int(11) NOT NULL AUTO_INCREMENT,
 			`id_customer` int(11) NOT NULL,
 			`id_card` int(11) NOT NULL,
@@ -397,7 +397,7 @@ final class Lemonway {
 		    PRIMARY KEY  (`id_oneclic`)
 		) ENGINE=InnoDB '.$charset_collate.';';
 		
-		$sql[] = 'CREATE TABLE IF NOT EXISTS `'.$wpdb->prefix.'lemonway_moneyout` (
+		$sql[] = 'CREATE TABLE IF NOT EXISTS `'.$wpdb->prefix.'payoh_moneyout` (
 		    `id_moneyout` int(11) NOT NULL AUTO_INCREMENT,
 			`id_lw_wallet` varchar(255) NOT NULL,
 			`id_customer` int(11) NOT NULL DEFAULT 0,
@@ -413,7 +413,7 @@ final class Lemonway {
 		    PRIMARY KEY  (`id_moneyout`)
 		) ENGINE=InnoDB '.$charset_collate.';';
 		
-		$sql[] = 'CREATE TABLE IF NOT EXISTS `'.$wpdb->prefix.'lemonway_iban` (
+		$sql[] = 'CREATE TABLE IF NOT EXISTS `'.$wpdb->prefix.'payoh_iban` (
 		    `id_iban` int(11) NOT NULL AUTO_INCREMENT,
 			`id_lw_iban` int(11) NOT NULL,
 			`id_customer` int(11) NOT NULL,
@@ -431,9 +431,9 @@ final class Lemonway {
 			UNIQUE KEY (`id_lw_iban`)
 		) ENGINE=InnoDB '.$charset_collate.';';
 		
-		$sql[] = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."lemonway_wallet` (
+		$sql[] = "CREATE TABLE IF NOT EXISTS `".$wpdb->prefix."payoh_wallet` (
 		  `id_wallet` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Wallet ID',
-		  `id_lw_wallet` varchar(190) NOT NULL COMMENT 'Lemonway Wallet ID',
+		  `id_lw_wallet` varchar(190) NOT NULL COMMENT 'Payoh Wallet ID',
 		  `id_customer` int(11) NOT NULL COMMENT 'Customer ID',
 		  `is_admin` smallint(6) NOT NULL COMMENT 'Is Admin',
 		  `customer_email` varchar(255) NOT NULL COMMENT 'Email',
@@ -466,7 +466,7 @@ final class Lemonway {
 		  UNIQUE KEY (`id_lw_wallet`)
 		) ENGINE=InnoDB ".$charset_collate." ;";
 		
-		$sql[] = 'CREATE TABLE IF NOT EXISTS `'.$wpdb->prefix.'lemonway_wktoken` (
+		$sql[] = 'CREATE TABLE IF NOT EXISTS `'.$wpdb->prefix.'payoh_wktoken` (
 					    `id_cart_wktoken` int(11) NOT NULL AUTO_INCREMENT,
 						`id_cart` int(11) NOT NULL,
 						`wktoken` varchar(190) NOT NULL,
@@ -486,6 +486,6 @@ final class Lemonway {
 }
 
 function LW(){
-	return Lemonway::instance();
+	return Payoh::instance();
 }
 LW();
