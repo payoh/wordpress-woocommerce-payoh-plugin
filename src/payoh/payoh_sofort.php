@@ -1,6 +1,6 @@
 <?php
 /*
- Plugin Name: Lemonway Sofort
+ Plugin Name: Payoh Sofort
  Plugin URI: https://www.payoh.fr/
  Description: Secured payment solutions for Internet marketplaces, eCommerce, and crowdfunding. Payment API. BackOffice management. Compliance. Regulatory reporting.
  Version: 1.1.2
@@ -11,10 +11,10 @@
 
 if(!defined('ABSPATH')) exit; // Exit if accessed directly
 
-final class Lemonway_Sofort {
+final class Payoh_Sofort {
 	
 	/**
-	 * @var Lemonway_Sofort The single instance of the class
+	 * @var _Sofort The single instance of the class
 	 */
 	protected static $_instance = null;
 	
