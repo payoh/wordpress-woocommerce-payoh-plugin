@@ -3,22 +3,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-require_once('class-wc-gateway-lemonway.php');
+require_once('class-wc-gateway-payoh.php');
 
 /**
- * WC_Gateway_Lemonway_Ideal class.
+ * WC_Gateway_Payoh_Ideal class.
  *
- * @extends WC_Gateway_Lemonway
+ * @extends WC_Gateway_Payoh
  */
-class WC_Gateway_Lemonway_Ideal extends WC_Gateway_Lemonway {
+class WC_Gateway_Payoh_Ideal extends WC_Gateway_Payoh {
 	public function __construct() {
-		$lwGateway = new WC_Gateway_Lemonway();
+		$lwGateway = new WC_Gateway_Payoh();
 
-		$this->id                 = 'lemonway_ideal';
+		$this->id                 = 'payoh_ideal';
 		$this->icon 			  = ''; //@TODO
 		$this->has_fields         = true;
-		$this->method_title       = __( 'Lemonway IDeal', LEMONWAY_IDEAL_TEXT_DOMAIN );
-		$this->method_description = __('Secured payment solutions for Internet marketplaces, e-Commerce, and crowdfunding. Payment API. BackOffice management. Compliance. Regulatory reporting.', LEMONWAY_IDEAL_TEXT_DOMAIN);
+		$this->method_title       = __( 'Payoh IDeal', PAYOH_IDEAL_TEXT_DOMAIN );
+		$this->method_description = __('Secured payment solutions for Internet marketplaces, e-Commerce, and crowdfunding. Payment API. BackOffice management. Compliance. Regulatory reporting.', PAYOH_IDEAL_TEXT_DOMAIN);
 
 		// Load the settings.
 		$this->init_form_fields();
@@ -33,8 +33,8 @@ class WC_Gateway_Lemonway_Ideal extends WC_Gateway_Lemonway {
 		self::$log_enabled = $this->debug;
 
 		add_action( 'woocommerce_update_options_payment_gateways_' . $this->id, array( $this, 'process_admin_options' ) );
-		include_once( 'class-wc-gateway-lemonway-ideal-notif-handler.php' );
-		new WC_Gateway_Lemonway_Ideal_Notif_Handler($this );
+		include_once( 'class-wc-gateway-payoh-ideal-notif-handler.php' );
+		new WC_Gateway_Payoh_Ideal_Notif_Handler($this );
 	}
 
 	/**
@@ -67,16 +67,16 @@ class WC_Gateway_Lemonway_Ideal extends WC_Gateway_Lemonway {
 						<label for="' . esc_attr( $this->id ) . '_801"><input id="' . esc_attr( $this->id ) . '_801" class="input-radio" value="801" type="radio" name="issuerId" /> Knab Bank</label></p>'
 		);
 		
-		$fields = wp_parse_args( $fields, apply_filters( 'lemonway_issuerId_form_fields', $issuerId_fields, $this->id ) );
+		$fields = wp_parse_args( $fields, apply_filters( 'payoh_issuerId_form_fields', $issuerId_fields, $this->id ) );
 		?>
 			<fieldset id="<?php echo $this->id; ?>-issuerId-form">
-				<?php do_action( 'lemonway_issuerId_form_start', $this->id ); ?>
+				<?php do_action( 'payoh_issuerId_form_start', $this->id ); ?>
 				<?php
 					foreach ( $fields as $field ) {
 						echo $field;
 					}
 				?>
-				<?php do_action( 'lemonway_issuerId_form_end', $this->id ); ?>
+				<?php do_action( 'payoh_issuerId_form_end', $this->id ); ?>
 				<div class="clear"></div>
 			</fieldset>
 			<?php
@@ -86,7 +86,7 @@ class WC_Gateway_Lemonway_Ideal extends WC_Gateway_Lemonway {
 	 * Initialise Gateway Settings Form Fields.
 	 */
 	public function init_form_fields() {
-		$this->form_fields = include( 'settings-lemonway-ideal.php' );
+		$this->form_fields = include( 'settings-payoh-ideal.php' );
 	}
 
 	/**
@@ -95,10 +95,10 @@ class WC_Gateway_Lemonway_Ideal extends WC_Gateway_Lemonway {
 	 * @return array
 	 */
 	public function process_payment( $order_id ) {
-		include_once( 'class-wc-gateway-lemonway-ideal-request.php' );
+		include_once( 'class-wc-gateway-payoh-ideal-request.php' );
 		
 		$order = wc_get_order( $order_id );
-		$lw_request = new WC_Gateway_Lemonway_Ideal_Request( $this );
+		$lw_request = new WC_Gateway_Payoh_Ideal_Request( $this );
 	
 		return array(
 				'result'   => 'success',

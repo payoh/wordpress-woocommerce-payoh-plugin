@@ -116,7 +116,7 @@ class WC_Gateway_Payoh extends WC_Payment_Gateway {
 		$this->icon = ''; //@TODO
 		$this->has_fields = true;
 		$this->method_title = __( 'Payoh', PAYOH_TEXT_DOMAIN );
-		$this->method_description = __('Secured payment solutions for Internet marketplaces, e-Commerce, and crowdfunding. Payment API. BackOffice management. Compliance. Regulatory reporting.', LEMONWAY_TEXT_DOMAIN);
+		$this->method_description = __('Secured payment solutions for Internet marketplaces, e-Commerce, and crowdfunding. Payment API. BackOffice management. Compliance. Regulatory reporting.', PAYOH_TEXT_DOMAIN);
 
 		// Load the settings.
 		$this->init_form_fields();
@@ -191,7 +191,7 @@ class WC_Gateway_Payoh extends WC_Payment_Gateway {
 		$oneclic_fields = array(
 				'register_card' => '<p class="form-row form-row-wide">
 				<label for="' . esc_attr( $this->id ) . '_register_card"><input id="' . esc_attr( $this->id ) . '_register_card" class="input-checkbox" value="register_card" type="checkbox" name="oneclic" />' 
-				. __( 'Save your card data for a next buy.', LEMONWAY_TEXT_DOMAIN ) . '</label>
+				. __( 'Save your card data for a next buy.', PAYOH_TEXT_DOMAIN ) . '</label>
 			</p>'
 		);
 		
@@ -203,17 +203,17 @@ class WC_Gateway_Payoh extends WC_Payment_Gateway {
 			$oneclic_fields = array(
 				'use_card' => '<p class="form-row form-row-wide">
 				<label for="' . esc_attr( $this->id ) . '_use_card"><input id="' . esc_attr( $this->id ) . '_use_card" class="input-radio" checked="checked" value="use_card" type="radio" name="oneclic" />' 
-					. sprintf(__( 'Use my recorded card: %s', LEMONWAY_TEXT_DOMAIN ),$cardNum) . '</label>
+					. sprintf(__( 'Use my recorded card: %s', PAYOH_TEXT_DOMAIN ),$cardNum) . '</label>
 				
 			</p>',
 			'register_card' => '<p class="form-row form-row-wide">
 				<label for="' . esc_attr( $this->id ) . '_register_card"><input id="' . esc_attr( $this->id ) . '_register_card" class="input-radio" value="register_card" type="radio" name="oneclic" />' 
-					. __( 'Save new card data.', LEMONWAY_TEXT_DOMAIN ) .'</label>
+					. __( 'Save new card data.', PAYOH_TEXT_DOMAIN ) .'</label>
 				
 			</p>',
 			'no_use_card' => '<p class="form-row form-row-wide">
 				<label for="' . esc_attr( $this->id ) . '_no_use_card"><input id="' . esc_attr( $this->id ) . '_no_use_card" class="input-radio" value="no_use_card" type="radio" name="oneclic" />' 
-					. __( 'Not use recorded card data.', LEMONWAY_TEXT_DOMAIN ) .'</label>
+					. __( 'Not use recorded card data.', PAYOH_TEXT_DOMAIN ) .'</label>
 				
 			</p>'
 			);
